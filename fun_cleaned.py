@@ -13,18 +13,23 @@ class Fun:
         self.bot = bot
 
     @commands.command()
-    async def fight(self, name1, unused, name2):
-        """random fights."""
+    async def fight(self, *, names):
+        """random fights. Syntax: person 1 vs person 2"""
 
         # Code goes here
         x = randint(0, 5000)
         y = randint(0, 5000)
-        #str = " ".join(args)
-        #str1 = str.split("vs")
-        #name1 = str1[0]
-        #name2 = str1[1]
-        name1 = name1.replace("\"", "") #horrible coding? Pfft, who cares
-        name2 = name2.replace("\"", "")
+        names = names.strip()
+        #print(names)
+        namesList = names.split(" vs ")
+        if len(namesList) == 1:
+            await self.bot.say("You need more than one person!")
+            return
+
+        name1 = namesList[0]
+        name2 = namesList[1]
+        #name1 = name1.replace("\"", "") #horrible coding? Pfft, who cares
+        #name2 = name2.replace("\"", "")
         if name1.lower() == 'chuck norris' or name2.lower() == 'chuck norris':
             await self.bot.say('NOBODY CAN BEAT CHUCK NORRIS.')
             #yield from event.conv.send_message(text_to_segments('NOBODY CAN BEAT CHUCK NORRIS.'))
@@ -32,7 +37,6 @@ class Fun:
             await self.bot.say(name1 + ' beats ' + name2 + ' ' + str(x) + ' to ' + str(y) + '!')
         elif x < y:
             await self.bot.say(name2 + ' beats ' + name1 + ' ' + str(y) + ' to ' + str(x) + '!')
-            # await self.bot.say("I can do stuff!")
     
     @commands.command()
     async def chance(self, *args):
@@ -113,6 +117,9 @@ class Fun:
             "https://arcofswords.s-ul.eu/ZDSfF0jd",
             "https://arcofswords.s-ul.eu/ag3eObpA",
             "https://arcofswords.s-ul.eu/eNP2hRGl",
+            "https://arcofswords.s-ul.eu/PNy82Ij2",
+            "https://arcofswords.s-ul.eu/RtCVe8DX",
+            "https://arcofswords.s-ul.eu/hGnvvJp7",
             "http://i.imgur.com/BDC3KrZ.jpg"
         ]
         
@@ -123,7 +130,6 @@ class Fun:
     @commands.command(no_pm=True, pass_context=False)
     async def psychopass(self, user: discord.Member):
         """Find a user's crime coefficient"""
-        
         
         #The letter a starts at 97, so subtract 97 from the character to get 0
         char_array = [ord(char) - 97 for char in user.name.lower()]
@@ -139,8 +145,8 @@ class Fun:
         elif cc_percentage >= 75 and cc_percentage < 100:
             text += "Poses a dangerous threat to society. Lethal force is authorized. The Dominator will automatically switch to Lethal Eliminatior."
         elif cc_percentage >= 100:
-            text += "***BZZT*** Error!"
-        #text += "\n__DEBUG:__\ncc: " + str(cc) + "\nmax cc: " + str(max_cc_possible)
+            text += "This target is a threat to humanity itself. It is advised to avoid confrontation and abandon all hope."
+        # text += "\n__DEBUG:__\ncc: " + str(cc) + "\nmax cc: " + str(max_cc_possible)
         
         await self.bot.say(text)
         
